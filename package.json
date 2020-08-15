@@ -17,7 +17,9 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "typescript": "~3.7.2"
+    "react-toastify": "^6.0.8",
+    "typescript": "~3.7.2",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "yarn run watch:css && BROWSER=google-chrome react-scripts start",
@@ -45,6 +47,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/react-router-dom": "^5.1.5",
+    "@types/yup": "^0.29.5",
     "autoprefixer": "^9.8.6",
     "postcss-cli": "^7.1.1",
     "stylelint-config-recommended": "^3.0.0",

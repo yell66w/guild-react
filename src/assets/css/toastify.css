@@ -1,0 +1,35 @@
+/* dark: {
+    "black-500": "#0b0c10",
+    "black-400": "#1a1a1d",
+    "black-300": "#1f2833",
+    "black-200": "#4e4e50",
+    "black-100": "#c5c6c7",
+    "teal-100": "#66fcf1",
+    "teal-200": "#45a29e",
+    "red-300": "#6f2232",
+    "red-200": "#950740",
+    "red-100": "#c3073f",
+    "yellow-100": "#ffe400",
+    "orange-100": "#ff652f",
+    "green-100": "#14a76c",
+  }, */
+
+.Toastify__toast--dark {
+  background-color: #1a1a1d;
+}
+.Toastify__toast--default {
+  background-color: white;
+}
+.Toastify__toast--info {
+  background-color: #66fcf1;
+}
+.Toastify__toast--success {
+  background-color: #14a76c;
+}
+.Toastify__toast--warning {
+  background-color: #ffe400;
+  color: black;
+}
+.Toastify__toast--error {
+  background-color: #e53e3e;
+}

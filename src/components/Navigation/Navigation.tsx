@@ -1,8 +1,15 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-
-const Navigation: React.FC = () => {
+interface Props {
+  auth: boolean;
+  setAuth: (value: boolean) => void;
+}
+const Navigation: React.FC<Props> = ({ auth, setAuth }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const logout = () => {
+    localStorage.removeItem("token");
+    setAuth(false);
+  };
 
   return (
     <Fragment>
@@ -30,7 +37,11 @@ const Navigation: React.FC = () => {
             isOpen ? "block" : "hidden"
           } lg:w-auto w-full flex-grow lg:flex lg:flex-row text-sm items-center `}
         >
-          <div className="flex flex-col lg:flex-row mr-auto animate__animated animate__lightSpeedInLeft">
+          <div
+            className={`${
+              auth ? "block" : "hidden"
+            } flex flex-col lg:flex-row animate__animated animate__lightSpeedInLeft`}
+          >
             <Link className="link text-xs font-semibold " to="/">
               HOME
             </Link>
@@ -41,19 +52,31 @@ const Navigation: React.FC = () => {
               ACTIVITIES
             </Link>
           </div>
-          <div className="flex flex-col lg:flex-row items-start lg:items-center animate__animated animate__lightSpeedInRight">
+          <div className="flex flex-col lg:flex-row ml-auto items-start lg:items-center animate__animated animate__lightSpeedInRight">
             <Link
               to="/login"
-              className="mt-3 lg:mt-0 focus:outline-none mr-2 font-semibold text-xs"
+              className={`${
+                auth ? "hidden" : "block"
+              } transition duration-150 ease-linear hover:text-dark-teal-100 mt-3 lg:mt-0 focus:outline-none mr-2 font-semibold text-xs`}
             >
               LOGIN
             </Link>
             <Link
               to="/register"
-              className="mt-3 lg:mt-0 btn-primary font-semibold text-xs"
+              className={`${
+                auth ? "hidden" : "block"
+              } mt-3 lg:mt-0 btn-primary font-semibold text-xs`}
             >
               REGISTER
             </Link>
+            <button
+              onClick={logout}
+              className={`${
+                auth ? "block" : "hidden"
+              } transition duration-150 ease-linear hover:text-dark-teal-100 cursor-pointer mt-3 lg:mt-0 focus:outline-none mr-2 font-semibold text-xs`}
+            >
+              LOGOUT
+            </button>
           </div>
         </div>
       </nav>

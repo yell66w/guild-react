@@ -40,7 +40,7 @@ function App() {
               {auth ? <Redirect to="/" /> : <Login setAuth={setAuth} />}
             </Route>
             <Route path="/register">
-              {auth ? <Redirect to="/" /> : <Register setAuth={setAuth} />}
+              {auth ? <Redirect to="/" /> : <Register />}
             </Route>
             <Route path="/attendance">
               {auth ? <Attendance /> : <Redirect to="/login" />}

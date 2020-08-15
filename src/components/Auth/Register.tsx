@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Yup from "yup";
+import API from "../../API/API";
+import { toast } from "react-toastify";
 
 interface data {
   IGN: string;
   username: string;
   password: string;
   confirmPassword: string;
-}
-interface Props {
-  setAuth: (value: boolean) => void;
 }
 
 const RegisterSchema = Yup.object().shape({
@@ -32,7 +31,12 @@ const RegisterSchema = Yup.object().shape({
     .required("Required!")
     .oneOf([Yup.ref("password")], "Passwords must match"),
 });
-const Register: React.FC<Props> = ({ setAuth }) => {
+const Register: React.FC = () => {
+  const [registered, setRegistered] = useState(false);
+
+  if (registered) {
+    return <Redirect to="/login" />;
+  }
   return (
     <div className="flex justify-center items-center my-12 ">
       <div className="w-11/12 sm:w-9/12 md:w-1/2 lg:w-1/3  p-6 rounded-lg animate__animated animate__backInDown flex flex-col ">
@@ -57,11 +61,25 @@ const Register: React.FC<Props> = ({ setAuth }) => {
             confirmPassword: "",
           }}
           validationSchema={RegisterSchema}
-          onSubmit={(values: data, { setSubmitting }: FormikHelpers<data>) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+          onSubmit={async (
+            values: data,
+            { setSubmitting }: FormikHelpers<data>
+          ) => {
+            try {
               setSubmitting(false);
-            }, 500);
+              await API.post("auth/sign-up", values);
+              toast.success(
+                "Registered successfully! Please wait for admin's approval.",
+                {
+                  className: "text-sm",
+                }
+              );
+              setRegistered(true);
+            } catch (err) {
+              toast.error("Registration failed! Please try again.", {
+                className: "text-sm",
+              });
+            }
           }}
         >
           {({ errors, touched }) => (

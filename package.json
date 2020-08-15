@@ -10,16 +10,22 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "animate.css": "^4.1.0",
+    "axios": "^0.19.2",
+    "formik": "^2.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn run watch:css && BROWSER=google-chrome react-scripts start",
+    "build": "yarn run build:css && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.css",
+    "watch:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +41,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/react-router-dom": "^5.1.5",
+    "autoprefixer": "^9.8.6",
+    "postcss-cli": "^7.1.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "tailwindcss": "^1.6.2"
   }
 }

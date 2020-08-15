@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+.link {
+  @apply mr-3 mt-3 border-b-2 border-transparent;
+}
+.btn-primary {
+  @apply transition duration-300 ease-linear px-3 py-1 bg-transparent border border-dark-teal-100 text-sm text-white rounded-full;
+}
+.btn-primary:hover {
+  @apply bg-dark-teal-100 text-dark-black-400;
+}
+.btn-primary:focus {
+  @apply outline-none;
+}
+
+@screen lg {
+  .link {
+    @apply mt-0;
+  }
+  .link:hover {
+    @apply border-dark-teal-100;
+  }
+  .link:focus {
+    @apply border-dark-teal-100;
+  }
+}
+@tailwind utilities;

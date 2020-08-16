@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { Link } from "react-router-dom";
 import API from "../../API/API";
@@ -24,8 +24,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: React.FC<Props> = ({ setAuth }) => {
+  const [invalid, setInvalid] = useState(false);
   return (
-    <>
+    <Fragment>
       <div className="flex justify-center items-center my-20">
         <div className="w-auto lg:w-1/3 p-6 rounded-lg animate__animated animate__backInDown flex flex-col ">
           <div className="top-0 z-10 fixed self-center flex flex-row bg-gray-100 w-12 h-12 lg:w-16 lg:h-16 rounded-full items-center justify-center">
@@ -60,6 +61,7 @@ const Login: React.FC<Props> = ({ setAuth }) => {
                   className: "text-sm ",
                 });
               } catch (error) {
+                setInvalid(true);
                 toast.error("Incorrect username & password! ", {
                   className: "text-sm bg-pink-900",
                 });
@@ -74,7 +76,7 @@ const Login: React.FC<Props> = ({ setAuth }) => {
 
                 <Field
                   className={`${
-                    errors.username && touched.username
+                    (errors.username && touched.username) || invalid
                       ? "border-dark-red-100 mb-1"
                       : "border-dark-teal-100 mb-3"
                   } text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-transparent focus:outline-none border-b  mt-1`}
@@ -94,7 +96,7 @@ const Login: React.FC<Props> = ({ setAuth }) => {
                 </label>
                 <Field
                   className={`${
-                    errors.password && touched.password
+                    (errors.password && touched.password) || invalid
                       ? "border-dark-red-100 mb-1"
                       : "border-dark-teal-100 mb-3"
                   } text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-transparent focus:outline-none border-b  mt-1`}
@@ -106,7 +108,7 @@ const Login: React.FC<Props> = ({ setAuth }) => {
                 />
                 {errors.password && touched.password ? (
                   <span className="text-xs text-dark-red-100 mb-2 ">
-                    {errors.password}
+                    {errors.password}{" "}
                   </span>
                 ) : null}
 
@@ -127,7 +129,7 @@ const Login: React.FC<Props> = ({ setAuth }) => {
           </Formik>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

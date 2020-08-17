@@ -23,12 +23,10 @@ function App() {
         });
         res.data.IGN ? setAuth(true) : setAuth(false);
         setRender(true);
-        console.log("rendered", res.data.IGN);
       } catch (error) {
         setRender(true);
         setAuth(false);
         console.log(error.message);
-        console.log("rendered error");
       }
     };
     checkAuth();

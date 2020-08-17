@@ -16,7 +16,7 @@ const Navigation: React.FC<Props> = ({ auth, setAuth }) => {
       <nav className="bg-dark-black-500 text-white flex flex-row flex-wrap justify-between p-6">
         <div className="mr-6 animate__animated animate__lightSpeedInLeft ">
           <Link to="/" className="font-bold ">
-            MAFIA
+            YELL0W
           </Link>
         </div>
         <div className=" flex-wrap flex justify-end items-center lg:hidden ">

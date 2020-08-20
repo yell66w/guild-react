@@ -13,9 +13,8 @@ const Attendance = () => {
   const [total, setTotal] = useState(0);
   const [searchField, setSearchField] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [onMarkChange, setOnMarkChange] = useState(false);
-
   useEffect(() => {
+    let isSubscribed = true;
     const getAttendance = async () => {
       try {
         const res = await API.get("attendances", {
@@ -28,21 +27,27 @@ const Attendance = () => {
             limit: 12,
           },
         });
-        setAttendances(res.data.data);
-        setTotalPages(res.data.totalPages);
-        setTotal(res.data.total);
-
+        if (isSubscribed) {
+          setAttendances(res.data.data);
+          setTotalPages(res.data.totalPages);
+          setTotal(res.data.total);
+        }
         if (page) window.scrollTo({ top: 0, behavior: "smooth" });
-        console.log("rendered");
       } catch (err) {
-        console.log(err.message);
+        if (isSubscribed) {
+          console.log(err.message);
+        }
       } finally {
-        setIsLoading(false);
+        if (isSubscribed) {
+          setIsLoading(false);
+        }
       }
     };
-
     getAttendance();
-  }, [page, search, onMarkChange]);
+    return function cleanup() {
+      isSubscribed = false;
+    };
+  }, [page, search]);
 
   const searchSubmit = (e: any) => {
     e.preventDefault();
@@ -64,12 +69,12 @@ const Attendance = () => {
   }
 
   return (
-    <div className="flex flex-col flex-wrap md:px-10">
+    <div className="flex flex-col flex-wrap ">
       <div className="sm:flex sm:flex-row sm:flex-wrap sm:px-2">
         <div className=" sm:items-center sm:flex sm:w-2/3 sm:px-2">
           <h1 className="font-bold text-2xl text-center">Attendance</h1>
         </div>
-        <div className={`mt-3 mb-10 sm:w-1/3 sm:px-2`}>
+        <div className={`my-3 sm:w-1/3  sm:px-2`}>
           <form onSubmit={(e) => searchSubmit(e)}>
             <input
               type="search"
@@ -90,14 +95,7 @@ const Attendance = () => {
         {attendances.length > 0 ? (
           <AttendanceList total={total}>
             {attendances.map((attendance: AttendanceInterface) => {
-              return (
-                <AttendanceItem
-                  setOnMarkChange={setOnMarkChange}
-                  onMarkChange={onMarkChange}
-                  key={attendance.id}
-                  {...attendance}
-                />
-              );
+              return <AttendanceItem key={attendance.id} {...attendance} />;
             })}
           </AttendanceList>
         ) : (

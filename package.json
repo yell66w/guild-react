@@ -13,6 +13,7 @@
     "animate.css": "^4.1.0",
     "axios": "^0.19.2",
     "formik": "^2.1.5",
+    "lodash": "^4.17.20",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/lodash": "^4.14.159",
     "@types/react-modal": "^3.10.6",
     "@types/react-paginate": "^6.2.1",
     "@types/react-router-dom": "^5.1.5",

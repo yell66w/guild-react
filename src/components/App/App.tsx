@@ -7,6 +7,7 @@ import Register from "../Auth/Register";
 import API from "../../API/API";
 import { ToastContainer } from "react-toastify";
 import Home from "../Home/Home";
+import AttendanceDetails from "../Attendance/AttendanceDetails";
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -37,7 +38,7 @@ function App() {
     <div className="App text-white ">
       <BrowserRouter>
         <Navigation auth={auth} setAuth={setAuth} />
-        <div className="px-6 py-2">
+        <div className="px-6 py-2 md:px-10">
           <ToastContainer />
 
           <Switch>
@@ -49,6 +50,10 @@ function App() {
             </Route>
             <Route exact path="/attendance">
               {!auth ? <Redirect to="/login" /> : <Attendance />}
+            </Route>
+
+            <Route exact path="/attendance/:id">
+              {!auth ? <Redirect to="/login" /> : <AttendanceDetails />}
             </Route>
             <Route exact path="/">
               {!auth ? <Redirect to="/login" /> : <Home />}

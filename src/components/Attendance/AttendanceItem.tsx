@@ -236,7 +236,7 @@ const AttendanceItem: React.FC<AttendanceInterface> = ({
         overlayClassName="animate__animated animate_fadeIn flex justify-center items-center fixed inset-0 bg-black bg-opacity-75"
       >
         <div className="h-full  flex flex-col flex-wrap ">
-          <div className="flex rounded-t-lg flex-row flex-wrap bg-dark-black-500 py-4 justify-center">
+          <div className="flex rounded-t-lg flex-col flex-wrap py-4 items-center">
             <h1 className="font-bold text-lg">
               {onClickLoading
                 ? marked
@@ -244,24 +244,27 @@ const AttendanceItem: React.FC<AttendanceInterface> = ({
                   : "Cancelling..."
                 : name}
             </h1>
-          </div>
-          <div className="flex  items-center flex-wrap flex-row p-4">
-            <div
-              className={`${onClickLoading ? "hidden" : "block"} w-1/2  px-2"`}
+            <p
+              className={`${
+                onClickLoading ? "hidden" : "block"
+              } text-xs mt-1 text-gray-300`}
             >
+              Honesty is the best policy!
+            </p>
+          </div>
+          <div className="flex justify-center  items-center flex-wrap flex-row">
+            <div className={`${onClickLoading ? "hidden" : "block"} px-1`}>
               <button
-                onClick={() => onMarkSelect("ontime")} //issue
-                className="focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 text-white w-full  text-xl rounded-full py-4 px-6 font-bold  bg-dark-green-100"
+                onClick={() => onMarkSelect("ontime")}
+                className="focus:outline-none transition duration-300 ease-in-out hover:text-white hover:bg-dark-green-100 text-dark-green-100 text-xs font-bold border border-dark-green-100   rounded-full px-3 py-1"
               >
                 ONTIME
               </button>
             </div>
-            <div
-              className={`${onClickLoading ? "hidden" : "block"} w-1/2 px-2`}
-            >
+            <div className={`${onClickLoading ? "hidden" : "block"} px-1`}>
               <button
                 onClick={() => onMarkSelect("late")}
-                className="focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 text-white w-full  text-xl rounded-full py-4 px-6 font-bold  bg-dark-orange-100"
+                className="focus:outline-none transition duration-300 ease-in-out hover:text-white hover:bg-dark-orange-100 text-dark-orange-100 text-xs font-bold border border-dark-orange-100   rounded-full px-3 py-1"
               >
                 LATE
               </button>
@@ -270,7 +273,7 @@ const AttendanceItem: React.FC<AttendanceInterface> = ({
             <div
               className={`${
                 !onClickLoading ? "hidden" : "block"
-              } flex justify-center w-full px-2`}
+              } flex justify-center w-full px-2 pb-5`}
             >
               <BeatLoader color={"#4e4e50"} />
             </div>

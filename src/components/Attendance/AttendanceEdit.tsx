@@ -2,147 +2,62 @@ import React, { Fragment, useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import Loader from "react-spinners/BeatLoader";
 import API from "../../API/API";
-import {
-  ActivityInterface,
-  ActivityPointInterface,
-} from "../Activity/ActivityInterface";
-import AttendanceAddOneDrop from "./AttendanceAddOneDrop";
-import { DropInterface } from "../Items/ItemsInterface";
+import { ActivityPointInterface } from "../Activity/ActivityInterface";
 import { toast } from "react-toastify";
-import { AttendanceInterface } from "./AttendanceInterface";
+import { AttendanceEditInterface } from "./AttendanceInterface";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
-  attendances: AttendanceInterface[];
-  setAttendances: (value: any) => void;
+  attendance: AttendanceEditInterface | any;
+  setAttendance: (value: any) => void;
 }
-const AttendanceCreate: React.FC<Props> = ({
+const AttendanceEdit: React.FC<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  attendances,
-  setAttendances,
+  attendance,
+  setAttendance,
 }) => {
   const [isFetchingActivity, setIsFetchingActivity] = useState(false);
   const [activityPoints, setActivityPoints] = useState([]);
-  const [drops, setDrops] = useState([]);
-  const [filteredDrops, setFilteredDrops] = useState([]);
-  const [selectedDrops, setSelectedDrops] = useState([]);
   const [errors, setErrors] = useState({
     activityId: false,
     remarks: false,
     result: false,
+    status: false,
     activityPointId: false,
   });
   const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
-  const [searchDropField, setSearchDropField] = useState("");
-  const [toReset, setToReset] = useState(false);
   const [data, setData] = useState({
-    activityId: "",
-    remarks: "",
-    result: "",
-    activityPointId: "",
+    activityId: attendance.activityId,
+    remarks: attendance.remarks,
+    result: attendance.result,
+    status: attendance.status,
+    activityPointId: attendance.activityPointId,
   });
-  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getDrops = async () => {
+    const getActivityPoints = async () => {
       try {
-        const res = await API.get("items", {
-          params: {
-            type: "DROP",
-          },
+        setIsFetchingActivity(true);
+        const res = await API.get(`activities/${attendance.activityId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         if (isSubscribed) {
-          setDrops(res.data);
-        }
-      } catch (err) {
-        if (isSubscribed) console.log(err.message);
-      }
-    };
-    if (isModalOpen) getDrops();
-    return () => {
-      isSubscribed = false;
-    };
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    let isSubscribed = true;
-    const filterDrops = () => {
-      const filtered = drops.filter((drop: DropInterface) => {
-        return drop.name.toLowerCase().includes(searchDropField.toLowerCase());
-      });
-
-      if (isSubscribed) setFilteredDrops(filtered);
-    };
-    if (isModalOpen && drops.length > 0) filterDrops();
-    return () => {
-      isSubscribed = false;
-    };
-  }, [searchDropField, isModalOpen, drops]);
-
-  useEffect(() => {
-    let isSubscribed = true;
-    const getActivities = async () => {
-      setIsFetchingActivity(true);
-      try {
-        const res = await API.get("activities", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (isSubscribed) {
-          setActivities(res.data);
-        }
-      } catch (err) {
-        if (isSubscribed) {
-          console.log(err.message);
-        }
-      } finally {
-        if (isSubscribed) {
+          setActivityPoints(res.data.activityPoints);
           setIsFetchingActivity(false);
         }
+      } catch (err) {
+        console.log(err.message);
       }
     };
-
-    if (isModalOpen) getActivities();
-
+    if (isModalOpen) getActivityPoints();
     return () => {
       isSubscribed = false;
     };
-  }, [isModalOpen]);
-
-  const reset = () => {
-    setData({
-      activityId: "",
-      remarks: "",
-      result: "",
-      activityPointId: "",
-    });
-    setActivityPoints([]);
-    setSelectedDrops([]);
-    setSearchDropField("");
-    setFilteredDrops([]);
-  };
-
-  const onActivityChange = (value: string) => {
-    if (value) {
-      const activity = activities.find(
-        (el: ActivityInterface) => el.id === value
-      );
-      if (activity) {
-        setData({ ...data, activityId: value });
-        setActivityPoints(activity["activityPoints"]);
-      } else {
-        console.log("Activity Not Found");
-      }
-    } else {
-      reset();
-    }
-  };
+  }, [attendance, isModalOpen]);
 
   const validateForm = () => {
     let error = false;
@@ -155,6 +70,9 @@ const AttendanceCreate: React.FC<Props> = ({
     } else if (!data.result) {
       setErrors({ ...errors, result: true });
       error = true;
+    } else if (!data.status) {
+      setErrors({ ...errors, status: true });
+      error = true;
     }
     if (error) {
       throw new Error("Something went wrong!");
@@ -165,39 +83,16 @@ const AttendanceCreate: React.FC<Props> = ({
     setIsCreatingAttendance(true);
     try {
       validateForm();
-      const res = await API.post("attendances", data, {
+      const res = await API.put(`/attendances/${attendance.id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      const attendanceId = res.data.id;
-      const attendance = res.data;
-      if (selectedDrops) {
-        for (let idx = 0; idx < selectedDrops.length; idx++) {
-          const selectedDrop: DropInterface = selectedDrops[idx];
-          const modDrop = { ...selectedDrop, attendanceId };
-          try {
-            const response = await API.post("attendances/drops", modDrop, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            });
-            attendance.gp_total += response.data.gp_price * response.data.qty;
-          } catch (error) {
-            console.log(error.message);
-          }
-        }
-      }
-
-      const newAttendance = [...attendances];
-      newAttendance[0] = attendance;
-      setToReset(true);
-      reset();
       setIsModalOpen(false);
-      toast.success("Successfully created an attendance!", {
+      setAttendance(res.data);
+      toast.success("Successfully updated the attendance!", {
         className: "text-sm",
       });
-      setAttendances(newAttendance);
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -207,7 +102,6 @@ const AttendanceCreate: React.FC<Props> = ({
   const closeModal = async () => {
     if (!isCreatingAttendance) {
       setIsModalOpen(false);
-      reset();
     }
   };
   return (
@@ -222,9 +116,7 @@ const AttendanceCreate: React.FC<Props> = ({
         <div className="h-full  flex flex-col flex-wrap ">
           <div className="flex rounded-t-lg flex-row flex-wrap  py-4 justify-center">
             <h1 className="font-bold text-lg">
-              {isCreatingAttendance
-                ? "CREATING ATTENDANCE"
-                : "CREATE ATTENDANCE"}
+              {isCreatingAttendance ? "UPDATING ATTENDANCE" : "EDIT ATTENDANCE"}
             </h1>
           </div>
           <div
@@ -240,27 +132,13 @@ const AttendanceCreate: React.FC<Props> = ({
               <label className="text-sm font-semibold" htmlFor="activityId">
                 Attendance
               </label>
-              <select
-                value={data.activityId}
-                onChange={function (e) {
-                  setErrors({ ...errors, activityId: false });
-                  onActivityChange(e.target.value);
-                }}
-                className={`${
-                  errors.activityId ? "border-dark-red-100" : ""
-                } text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  mt-1`}
+              <input
+                value={attendance.name}
+                className={`cursor-not-allowed text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  mt-1`}
                 name="activityId"
                 id="activityId"
-              >
-                <option value="">Select an attendance</option>
-                {activities.map(({ id, name }: ActivityInterface) => {
-                  return (
-                    <option key={id} value={id}>
-                      {name}
-                    </option>
-                  );
-                })}
-              </select>
+                disabled
+              ></input>
               <div className={` mt-3`}>
                 <label
                   className="text-sm font-semibold"
@@ -317,53 +195,43 @@ const AttendanceCreate: React.FC<Props> = ({
                   <option value="LOST">LOST</option>
                 </select>
               </div>
+
+              <div className={`mt-3`}>
+                <label className="text-sm font-semibold" htmlFor="result">
+                  STATUS
+                </label>
+                <select
+                  onChange={function (e) {
+                    setErrors({ ...errors, status: false });
+                    setData({ ...data, status: e.target.value });
+                  }}
+                  value={data.status}
+                  className={`${
+                    errors.status ? "border-dark-red-100" : ""
+                  } disabled:cursor-not-allowed text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  mt-1`}
+                  name="status"
+                  id="status"
+                >
+                  <option value="">Select status</option>
+                  <option value="OPEN">OPEN</option>
+                  <option value="CLOSED">CLOSED</option>
+                </select>
+              </div>
               <div className={`mt-3`}>
                 <label className="text-sm font-semibold" htmlFor="remarks">
                   Remarks
                 </label>
                 <textarea
+                  maxLength={20}
                   value={data.remarks}
                   onChange={(e) =>
                     setData({ ...data, remarks: e.target.value })
                   }
-                  className={`disabled:cursor-not-allowed text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  mt-1`}
+                  className={`resize-none disabled:cursor-not-allowed text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  mt-1`}
                   name="remarks"
                   id="remarks"
                   placeholder="Write your remarks."
                 />
-              </div>
-
-              <div className={`mt-3`}>
-                <label className="text-sm font-semibold" htmlFor="drops">
-                  DROPS
-                </label>
-                <input
-                  className="disabled:cursor-not-allowed text-xs transition duration-150 ease-linear focus:border-teal-100  p-2 w-full  bg-dark-black-400 focus:outline-none border-b  "
-                  type="search"
-                  placeholder="Search drop..."
-                  value={searchDropField}
-                  onChange={(e) => setSearchDropField(e.target.value)}
-                />
-                <div
-                  className={`flex flex-row flex-wrap disabled:cursor-not-allowed text-xs transition duration-150 ease-linear   p-2 w-full  bg-dark-black-400 focus:outline-none  mt-1`}
-                >
-                  {filteredDrops
-                    ? filteredDrops.slice(0, 5).map((drop: DropInterface) => {
-                        return (
-                          <AttendanceAddOneDrop
-                            reset={toReset}
-                            id={drop.id}
-                            qty={drop.qty} //? issue
-                            gp_price={drop.gp_price}
-                            selectedDrops={selectedDrops}
-                            setSelectedDrops={setSelectedDrops}
-                            key={drop.id}
-                            name={drop.name}
-                          />
-                        );
-                      })
-                    : null}
-                </div>
               </div>
             </form>
           </div>
@@ -393,7 +261,7 @@ const AttendanceCreate: React.FC<Props> = ({
               className="mr-2 focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 text-xs font-bold px-2 py-1 rounded-full  text-black bg-dark-teal-100"
               type="submit"
             >
-              SUBMIT
+              UPDATE
             </button>
           </div>
         </div>
@@ -402,4 +270,4 @@ const AttendanceCreate: React.FC<Props> = ({
   );
 };
 
-export default AttendanceCreate;
+export default AttendanceEdit;

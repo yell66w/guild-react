@@ -18,7 +18,25 @@ const AttendanceAddOneDrop: React.FC<Props> = ({
 
   useEffect(() => {
     let isSubscribed = true;
-    if (isSubscribed) setAdded(false);
+    const found = selectedDrops.find((drop: any) => {
+      return drop["itemId"] === id;
+    });
+    if (found) {
+      if (isSubscribed) {
+        setQty(found["qty"]);
+        setAdded(true);
+      }
+    }
+    return () => {
+      isSubscribed = false;
+    };
+  }, [selectedDrops, id]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+    if (isSubscribed && reset) {
+      setAdded(false);
+    }
     return () => {
       isSubscribed = false;
     };

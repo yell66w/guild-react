@@ -5,6 +5,7 @@ import Paginate from "react-paginate";
 import Loader from "react-spinners/BeatLoader";
 import AttendanceItem from "./AttendanceItem";
 import { AttendanceInterface } from "./AttendanceInterface";
+import AttendanceCreate from "./AttendanceCreate";
 const Attendance = () => {
   const [attendances, setAttendances] = useState([]);
   const [page, setPage] = useState(0);
@@ -13,6 +14,7 @@ const Attendance = () => {
   const [total, setTotal] = useState(0);
   const [searchField, setSearchField] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
   useEffect(() => {
     let isSubscribed = true;
     const getAttendance = async () => {
@@ -93,10 +95,19 @@ const Attendance = () => {
         } animate__animated animate__fadeIn`}
       >
         {attendances.length > 0 ? (
-          <AttendanceList total={total}>
+          <AttendanceList
+            setIsCreatingAttendance={setIsCreatingAttendance}
+            total={total}
+          >
             {attendances.map((attendance: AttendanceInterface) => {
               return <AttendanceItem key={attendance.id} {...attendance} />;
             })}
+            <AttendanceCreate
+              attendances={attendances}
+              setAttendances={setAttendances}
+              isModalOpen={isCreatingAttendance}
+              setIsModalOpen={setIsCreatingAttendance}
+            />
           </AttendanceList>
         ) : (
           <p className="text-sm text-center">No results found.</p>

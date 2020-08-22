@@ -16,6 +16,9 @@ const AttendanceField: React.FC<Props> = ({
   url = "",
 }) => {
   const [name, setName] = useState(""); //refactor
+  const [data, setData] = useState({
+    gp_price: 0,
+  });
   const [isLoading, setIsLoading] = useState(isAPI);
   useEffect(() => {
     let isSubscribed = true;
@@ -30,6 +33,8 @@ const AttendanceField: React.FC<Props> = ({
         if (isSubscribed) {
           if (res.data.IGN) setName(res.data.IGN);
           else setName(res.data.name);
+
+          setData(res.data);
         }
       } catch (err) {
         if (isSubscribed) {
@@ -58,7 +63,10 @@ const AttendanceField: React.FC<Props> = ({
   return (
     <div className="flex py-2 border-b border-opacity-25 border-white  w-full flex-row  justify-between">
       <p className="font-bold">{title || name}</p>
-      <p className="text-opacity-75 text-white">{value}</p>
+      <p className="text-opacity-75 text-white">
+        {value}
+        {data.gp_price ? `x (${data.gp_price} GP)` : ""}
+      </p>
     </div>
   );
 };

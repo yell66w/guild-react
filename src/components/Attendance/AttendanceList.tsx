@@ -1,13 +1,15 @@
-import React, { Fragment, useState } from "react";
-
-import AttendanceCreate from "./AttendanceCreate";
+import React, { Fragment } from "react";
 
 interface Props {
   total: number;
+  setIsCreatingAttendance: (value: boolean) => void;
 }
 
-const AttendanceList: React.FC<Props> = ({ total, children }) => {
-  const [isCreatingAttendance, setIsCreatingAttendance] = useState(false);
+const AttendanceList: React.FC<Props> = ({
+  total,
+  children,
+  setIsCreatingAttendance,
+}) => {
   return (
     <Fragment>
       <div className="flex items-center ">
@@ -27,10 +29,6 @@ const AttendanceList: React.FC<Props> = ({ total, children }) => {
       </div>
       <ul className="flex flex-col flex-wrap sm:flex-row">{children}</ul>
 
-      <AttendanceCreate
-        isModalOpen={isCreatingAttendance}
-        setIsModalOpen={setIsCreatingAttendance}
-      />
       {/* Listen to updates issue, maybe adding this attendance create as a child */}
     </Fragment>
   );

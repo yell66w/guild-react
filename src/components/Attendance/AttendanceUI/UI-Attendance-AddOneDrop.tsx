@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { DropInterface } from "../Items/ItemsInterface";
+import { DropInterface } from "../../Items/ItemsInterface";
 import _ from "lodash";
 interface Props extends DropInterface {
   selectedDrops: any;
   setSelectedDrops: (value: any) => void;
-  reset: boolean;
+  reset?: boolean;
 }
-const AttendanceAddOneDrop: React.FC<Props> = ({
+const UIAttendanceAddOneDrop: React.FC<Props> = ({
   name,
   id,
   selectedDrops,
@@ -88,4 +88,4 @@ const AttendanceAddOneDrop: React.FC<Props> = ({
   );
 };
 
-export default AttendanceAddOneDrop;
+export default UIAttendanceAddOneDrop;

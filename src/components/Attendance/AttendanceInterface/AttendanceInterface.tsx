@@ -12,6 +12,40 @@ export interface AttendanceInterface {
   remarks: string;
 }
 
+export const AttendanceInit = {
+  id: "",
+  activityPoint: {
+    ap: 0,
+    name: "",
+  },
+  name: "",
+  ap_total: 0,
+  gp_total: 0,
+  author: "",
+  createdAt: "",
+  participants: [
+    {
+      id: "",
+      userId: "",
+      mark: "",
+      percentage: "",
+    },
+  ],
+  items: [
+    {
+      id: "",
+      itemId: "",
+      qty: 0,
+      gp_price: 0,
+    },
+  ],
+  remarks: "",
+  result: "",
+  status: "",
+  updatedAt: "",
+  category: "",
+};
+
 export interface AttendanceEditInterface {
   id: string;
   activityPoint: {

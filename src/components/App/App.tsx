@@ -7,7 +7,7 @@ import Register from "../Auth/Register";
 import API from "../../API/API";
 import { ToastContainer } from "react-toastify";
 import Home from "../Home/Home";
-import AttendanceDetails from "../Attendance/AttendanceDetails";
+import AttendanceDetails from "../Attendance/AttendanceOne/AttendanceRead/Attendance-Details";
 
 function App() {
   const [auth, setAuth] = useState(false);

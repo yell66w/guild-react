@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from "../../API/API";
+import API from "../../../API/API";
 import Loader from "react-spinners/BounceLoader";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   url?: string;
 }
 
-const AttendanceField: React.FC<Props> = ({
+const UIAttendanceField: React.FC<Props> = ({
   title,
   value,
   isAPI = false,
@@ -71,4 +71,4 @@ const AttendanceField: React.FC<Props> = ({
   );
 };
 
-export default AttendanceField;
+export default UIAttendanceField;

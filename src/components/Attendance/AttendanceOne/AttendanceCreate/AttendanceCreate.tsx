@@ -1,15 +1,15 @@
 import React, { Fragment, useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import Loader from "react-spinners/BeatLoader";
-import API from "../../API/API";
+import API from "../../../../API/API";
 import {
   ActivityInterface,
   ActivityPointInterface,
-} from "../Activity/ActivityInterface";
-import AttendanceAddOneDrop from "./AttendanceAddOneDrop";
-import { DropInterface } from "../Items/ItemsInterface";
+} from "../../../Activity/ActivityInterface";
+import UIAttendanceAddOneDrop from "../../AttendanceUI/UI-Attendance-AddOneDrop";
+import { DropInterface } from "../../../Items/ItemsInterface";
 import { toast } from "react-toastify";
-import { AttendanceInterface } from "./AttendanceInterface";
+import { AttendanceInterface } from "../../AttendanceInterface/AttendanceInterface";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
@@ -350,7 +350,7 @@ const AttendanceCreate: React.FC<Props> = ({
                   {filteredDrops
                     ? filteredDrops.slice(0, 5).map((drop: DropInterface) => {
                         return (
-                          <AttendanceAddOneDrop
+                          <UIAttendanceAddOneDrop
                             reset={toReset}
                             id={drop.id}
                             qty={drop.qty} //? issue
@@ -384,7 +384,7 @@ const AttendanceCreate: React.FC<Props> = ({
           >
             <button
               onClick={closeModal}
-              className="focus:outline-none hover:text-red-800 text-sm text-red-700"
+              className="focus:outline-none hover:text-red-800 text-xs text-red-700"
             >
               Cancel
             </button>

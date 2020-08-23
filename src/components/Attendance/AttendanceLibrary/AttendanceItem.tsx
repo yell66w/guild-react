@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-import API from "../../API/API";
+import API from "../../../API/API";
 import Loader from "react-spinners/BounceLoader";
 import BeatLoader from "react-spinners/BeatLoader";
 import moment from "moment";
-import { AttendanceInterface } from "./AttendanceInterface";
+import { AttendanceInterface } from "../AttendanceInterface/AttendanceInterface";
 import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
 
@@ -285,7 +285,7 @@ const AttendanceItem: React.FC<AttendanceInterface> = ({
           >
             <button
               onClick={() => setIsModalOpen(false)}
-              className="focus:outline-none hover:text-red-800 text-sm text-red-700"
+              className="focus:outline-none hover:text-red-800 text-xs text-red-700"
             >
               Cancel
             </button>

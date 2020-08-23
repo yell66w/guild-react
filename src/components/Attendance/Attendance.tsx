@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import AttendanceList from "./AttendanceList";
+import AttendanceList from "./AttendanceLibrary/AttendanceList";
 import API from "../../API/API";
 import Paginate from "react-paginate";
 import Loader from "react-spinners/BeatLoader";
-import AttendanceItem from "./AttendanceItem";
-import { AttendanceInterface } from "./AttendanceInterface";
-import AttendanceCreate from "./AttendanceCreate";
+import AttendanceItem from "./AttendanceLibrary/AttendanceItem";
+import { AttendanceInterface } from "./AttendanceInterface/AttendanceInterface";
+import AttendanceCreate from "./AttendanceOne/AttendanceCreate/AttendanceCreate";
 const Attendance = () => {
   const [attendances, setAttendances] = useState([]);
   const [page, setPage] = useState(0);

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
 /** Tailwind CSS */
-import "./assets/css/main.css";
+import "./assets/css/tailwind.css";
 /** Custom CSS */
 import "./assets/css/custom.css";
 /** Animate CSS */

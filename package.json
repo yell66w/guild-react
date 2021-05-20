@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -15,27 +16,38 @@
     "formik": "^2.1.5",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-modal": "^3.11.2",
     "react-paginate": "^6.3.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^4.0.3",
     "react-spinners": "^0.9.0",
     "react-toastify": "^6.0.8",
     "typescript": "~3.7.2",
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "yarn run watch:css && BROWSER=google-chrome react-scripts start",
-    "build": "yarn run build:css && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.css",
-    "watch:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.css"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/lodash": "^4.14.159",
+    "@types/react-modal": "^3.10.6",
+    "@types/react-paginate": "^6.2.1",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/yup": "^0.29.5",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^8.2.15",
+    "postcss-cli": "^7.1.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "tailwindcss": "^1.6.2"
   },
   "browserslist": {
     "production": [
@@ -48,17 +60,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/lodash": "^4.14.159",
-    "@types/react-modal": "^3.10.6",
-    "@types/react-paginate": "^6.2.1",
-    "@types/react-router-dom": "^5.1.5",
-    "@types/yup": "^0.29.5",
-    "autoprefixer": "^9.8.6",
-    "postcss-cli": "^7.1.1",
-    "stylelint-config-recommended": "^3.0.0",
-    "tailwindcss": "^1.6.2"
   }
 }

@@ -7,7 +7,21 @@ import AttendanceItem from "./AttendanceLibrary/AttendanceItem";
 import { AttendanceInterface } from "./AttendanceInterface/AttendanceInterface";
 import AttendanceCreate from "./AttendanceOne/AttendanceCreate/AttendanceCreate";
 const Attendance = () => {
-  const [attendances, setAttendances] = useState([]);
+  const [attendances, setAttendances] = useState([
+    value:{
+      id: 1,
+      name: "hello",
+      status: "online",
+      createdAt: "11:58 AM",
+      updatedAt: "11:58 AM",
+      gp_total: 1,
+      ap_total: 2,
+      result: "Won",
+      category: "Nice",
+      author: "Ako",
+      remarks: "GJ",
+    },
+  ]);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(0);

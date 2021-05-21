@@ -8,12 +8,12 @@ import { AttendanceInterface } from "./AttendanceInterface/AttendanceInterface";
 import AttendanceCreate from "./AttendanceOne/AttendanceCreate/AttendanceCreate";
 const Attendance = () => {
   const [attendances, setAttendances] = useState([
-    value:{
+    {
       id: 1,
       name: "hello",
       status: "online",
-      createdAt: "11:58 AM",
-      updatedAt: "11:58 AM",
+      createdAt: new Date(),
+      updatedAt: new Date(),
       gp_total: 1,
       ap_total: 2,
       result: "Won",
@@ -108,7 +108,8 @@ const Attendance = () => {
           isLoading ? "hidden" : "block"
         } animate__animated animate__fadeIn`}
       >
-        {attendances.length > 0 ? (
+        //EDIT - change to attendances.length
+        {attendances ? (
           <AttendanceList
             setIsCreatingAttendance={setIsCreatingAttendance}
             total={total}
@@ -130,7 +131,7 @@ const Attendance = () => {
 
       <div
         className={`${
-          attendances.length > 0 && !isLoading ? "block" : "hidden"
+          attendances && !isLoading ? "block" : "hidden"
         } flex justify-center mt-12`}
       >
         <Paginate

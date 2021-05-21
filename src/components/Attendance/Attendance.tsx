@@ -7,21 +7,7 @@ import AttendanceItem from "./AttendanceLibrary/AttendanceItem";
 import { AttendanceInterface } from "./AttendanceInterface/AttendanceInterface";
 import AttendanceCreate from "./AttendanceOne/AttendanceCreate/AttendanceCreate";
 const Attendance = () => {
-  const [attendances, setAttendances] = useState([
-    {
-      id: 1,
-      name: "hello",
-      status: "online",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      gp_total: 1,
-      ap_total: 2,
-      result: "Won",
-      category: "Nice",
-      author: "Ako",
-      remarks: "GJ",
-    },
-  ]);
+  const [attendances, setAttendances] = useState([]);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(0);
@@ -44,7 +30,8 @@ const Attendance = () => {
           },
         });
         if (isSubscribed) {
-          setAttendances(res.data.data);
+          console.log(res.data);
+          setAttendances(res.data);
           setTotalPages(res.data.totalPages);
           setTotal(res.data.total);
         }
@@ -108,8 +95,7 @@ const Attendance = () => {
           isLoading ? "hidden" : "block"
         } animate__animated animate__fadeIn`}
       >
-        //EDIT - change to attendances.length
-        {attendances ? (
+        {attendances.length ? (
           <AttendanceList
             setIsCreatingAttendance={setIsCreatingAttendance}
             total={total}
